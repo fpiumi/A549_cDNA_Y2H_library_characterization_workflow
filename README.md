@@ -220,15 +220,13 @@ Options :
 -o specifies the name of the output file, which includes the read counts
 file.bam is an alignment file: in this file, the reads we want to count are aligned to the same genome as the annotation file.
 
-Output :
-counts.txt
 For each meta-feature, the “Length” column gives the total length of genomic regions covered by features included in that meta-feature. the “Length” column typically contains the total number of non-overlapping bases in exons belonging to the same gene for each gene.
 Strand : exons number of a gene
 
 
 
 ## Step 11: Reads summarization with transcriptome bam files
-feature counts is not working with transcriptome bam files, the following script must be used :
+featureCounts summarization is not working with transcriptome bam files, the following script must be used:
 
 Script 11.samtools_counts_transcriptome_files
 ```shell
@@ -250,7 +248,7 @@ samtools view minimap2_transcriptome.filt.sort.bam \
 
 ## Step 12: Count files annotation
 
-An human genome annotation file is preliminarily downloaded from the biomart Ensembl Genes 112 database, (GRCh38.p14 human genes version) with the following attributes: Gene.stable.ID, Transcript.stable.ID, Gene.description, Gene.name, Gene.type 
+A human genome annotation file is preliminarily downloaded from the biomart Ensembl Genes 112 database, (GRCh38.p14 human genes version) with the following attributes: Gene.stable.ID, Transcript.stable.ID, Gene.description, Gene.name, Gene.type 
 ```R
 # annotation file opening
 biomart <- read.csv2("mart_export.txt",sep="\t") 
@@ -262,7 +260,8 @@ counts_genome_splice <- read.table( "minimap2_genome_splice.counts.txt" ,sep="\t
 counts_genome_splice_short <- counts_genome_splice %>%
   dplyr::select(-c("Chr"   , "Start" ,  "End" ,  "Strand" , "Length"))
 
-# variable name reduction: counts_genome_splice = GCS
+# merge counts file and annotation file
+# variable name change: counts_genome_splice = GCS
 GCS_annotated <- merge(counts_genome_splice_short, biomartbis, by.x="Geneid", by.y="Gene.stable.ID", all.x=TRUE)
 
 # keep counts > 0
@@ -289,13 +288,13 @@ CGSASupZNV_wo_na_grouped2 <- CGSASupZNV_wo_na_grouped %>%
   arrange(Gene.name)
 
 ## add again annotation because a part of it was lost during the previous steps
-biomartbis3 <- biomart2[!(biomart2$Gene.name==""),]
+biomart3 <- biomart2[!(biomart2$Gene.name==""),]
 
-biomartbis4 <- biomartbis3 %>%
+biomart4 <- biomart3 %>%
   group_by(Gene.name) %>%
   arrange(Gene.name)
 CGSASupZNV_wo_na_grouped3 <- merge(CGSASupZNV_wo_na_grouped2,
-                                   biomartbis3 , by.x="Gene.name")
+                                   biomart4 , by.x="Gene.name")
 
 ```
 
@@ -342,9 +341,9 @@ treeplot(bp3)
 mart <- biomaRt::useEnsembl(biomart = "ensembl", 
                    dataset = "hsapiens_gene_ensembl") #, 
 #                   mirror = "useast")
-getbm_res<-getBM(attributes = c("hgnc_symbol","entrezgene_id"), filters = "hgnc_symbol", 
+getbm_res <- getBM(attributes = c("hgnc_symbol","entrezgene_id"), filters = "hgnc_symbol", 
                  values = CGSASupZNV_wo_na_grouped3$Gene.name, mart = mart, uniqueRows = F)
-getbm_res$entrezgene_id<-as.character(getbm_res$entrezgene_id)
+getbm_res$entrezgene_id <- as.character(getbm_res$entrezgene_id)
 CGSASupZNV_wo_na_grouped3$entrezid <- getbm_res$entrezgene[match(CGSASupZNV_wo_na_grouped3$Gene.name,getbm_res$hgnc_symbol)]
 
 library(ReactomePA)
