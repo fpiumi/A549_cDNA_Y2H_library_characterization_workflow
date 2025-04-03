@@ -37,10 +37,6 @@ The –a argument specifies that the alignments should be output in SAM format (
 The -x map-ont preset adjusts minimap2's internal parameters to handle the characteristics of ONT reads, which are long reads (tens to hundreds of thousands of bases long) and which may have a higher error rate compared to other sequencing technologies, such as Illumina. This preset ensures robust alignments despite these errors. 
 The -N parameter specifies the maximum number of secondary alignments reported per read. In genome alignment, the purpose is to map reads to the entire genomic sequence, which often contains repetitive elements, duplications, and homologous regions. Using -N 100 ensures to capture all possible mappings in a complex reference, especially in repetitive regions.
 
-Command line:
-sbatch minimap2_genome.sh
-output : minimap2_genome.sam
-
 
 ## Step 4: splice-aware genome mapping
 Script name: 4.minimap2_genome_splice.sh
@@ -91,7 +87,7 @@ Script name: 7.samtools_sam2bam.sh
 module load bioinfo/samtools/1.19
 samtools view -bS minimap2_genome.sam > minimap2_genome.bam
 ```
-This step has to be done for all the sam files
+This step has to be done for all the sam files. 
 The -bS option in samtools view is used to specify that the input was in SAM format (-S) and that the output should be in BAM format (-b).
 
 ## Step 8: bam indexing/sorting
@@ -102,14 +98,11 @@ module load bioinfo/samtools/1.19
 samtools sort minimap2_genome.bam -o minimap2_genome.sort.bam
 samtools index minimap2_genome.sort.bam
 ```
-output
-minimap2_genome.sort.bam
-minimap2_genome_splice.sort.bam
-minimap2_transcriptome.sort.bam
-minimap2_transcriptome_coding_noncoding.sort.bam
+This step has to be done for all the bam files. 
 
 
-Step 9: samtools flagstat
+
+## Step 9: samtools flagstat
 Script name: 9.samtools_flagstat.sh
 ```shell
 #!/bin/bash
