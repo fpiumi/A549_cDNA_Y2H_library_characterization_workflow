@@ -118,7 +118,7 @@ samtools flagstat minimap2_genome_sort.bam
 ```
 
 samtools flagstat output result for the minimap2_genome_splice.sort.bam :
-
+```
 2017793 + 0 in total (QC-passed reads + QC-failed reads)
 1237849 + 0 primary
 617625 + 0 secondary
@@ -135,7 +135,7 @@ samtools flagstat output result for the minimap2_genome_splice.sort.bam :
 0 + 0 singletons (N/A : N/A)
 0 + 0 with mate mapped to a different chr
 0 + 0 with mate mapped to a different chr (mapQ>=5)
-
+```
 How to Interpret Each Line?
 In sequence alignment, **primary**, **secondary**, and **supplementary alignments** are terms used to describe how reads align to a reference genome or sequence. These terms help categorize the relationships between a read and its alignment positions, particularly in cases where a read aligns to multiple locations or spans structural variations.
 
