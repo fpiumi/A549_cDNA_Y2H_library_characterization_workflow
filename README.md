@@ -136,71 +136,66 @@ samtools flagstat output result for the minimap2_genome_splice.sort.bam :
 0 + 0 with mate mapped to a different chr
 0 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
-How to Interpret Each Line?
+How to interpret each line?
 In sequence alignment, **primary**, **secondary**, and **supplementary alignments** are terms used to describe how reads align to a reference genome or sequence. These terms help categorize the relationships between a read and its alignment positions, particularly in cases where a read aligns to multiple locations or spans structural variations.
 
-2017793 + 0 in total (QC-passed reads + QC-failed reads) : Total reads in the file (including primary, secondary, supplementary, and QC-failed reads).The first number represents QC-passed reads.The second number (after +) represents QC-failed reads.
+2017793 + 0 in total (QC-passed reads + QC-failed reads) : Total reads in the file (including primary, secondary, supplementary, and QC-failed reads). The first number represents QC-passed reads.The second number (after +) represents QC-failed reads.
 
 
-1237849 + 0 primary : ### **1. Primary Alignment**
-The **primary alignment** is the *best* alignment for a read, as determined by the aligner based on a scoring algorithm (e.g., highest alignment score, least mismatches). For paired-end reads, the primary alignment must also respect the pairing information.
+1237849 + 0 primary : Primary alignments.
+The primary alignment is the best alignment for a read, as determined by the aligner based on a scoring algorithm (e.g., highest alignment score, least mismatches). For paired-end reads, the primary alignment must also respect the pairing information.
 In the SAM file:
-- A primary alignment is indicated by the **absence of the `0x100` flag** (`FLAG` field in SAM format).
+- A primary alignment is indicated by the absence of the `0x100` flag (`FLAG` field in SAM format).
 - There is only one primary alignment per read.
 
-617625 + 0 secondary : ### **2. Secondary Alignment**
-A **secondary alignment** represents an alternative alignment for a read, where the read maps to another location in the reference sequence but is not considered the "best" alignment.
+617625 + 0 secondary : Secondary alignments.
+A secondary alignment represents an alternative alignment for a read, where the read aligns to multiple places in the reference sequence but is not considered the "best" alignment.
 In the SAM file:
-- A secondary alignment is marked with the **`0x100` flag**.
+- A secondary alignment is marked with the `0x100` flag.
 - Secondary alignments are typically output if the aligner detects multimapping reads (reads aligning to multiple locations) or when there is ambiguity in alignment.
-- Secondary alignments do not split a read; the entire read is aligned at a different location.
-Secondary alignments: Reads that align to multiple places.
+- Secondary alignments do not split a read. The entire read is aligned at a different location.
 If this number is high, you may have repetitive sequences or multimapped reads.
 
-162319 + 0 supplementary : ### **3. Supplementary Alignment**
-A **supplementary alignment** is used when a read spans large structural variations (e.g., translocations, inversions) or when it maps in a split manner across multiple regions of the reference. These alignments represent fragments of a single read that align to different parts of the reference.
+162319 + 0 supplementary : Supplementary alignments.
+A supplementary alignment is used when a read spans large structural variations (e.g., translocations, inversions) or when it maps in a split manner across multiple regions of the reference. These alignments represent fragments of a single read that align to different parts of the reference.
 In the SAM file:
-- A supplementary alignment is marked with the **`0x800` flag**.
+- A supplementary alignment is marked with the `0x800` flag.
 - The aligner typically uses supplementary alignments to represent split reads, where part of a read maps to one region and another part maps to a different region.
 - Supplementary alignments are always tied to a primary alignment, and they form a complete representation of the read's alignment.
 Typically seen in chimeric or split reads (e.g., structural variants, long-read sequencing).
 
 0 + 0 duplicates : Reads marked as PCR duplicates (detected using samtools markdup or Picard). If high, it may indicate PCR amplification bias.
 
-
 0 + 0 primary duplicates : The "duplicates" line counts all duplicate reads, including primary, secondary, and supplementary alignments.
 The "primary duplicates" line counts only the primary alignments that are marked as duplicates.
 This is useful because only primary reads are typically used for downstream analyses (e.g., variant calling).
 
-
 1732658 + 0 mapped (85.87% : N/A) : Mapped reads: Reads that successfully aligned to the reference genome.
-
 A high percentage (>90%) is good. If low, check for reference mismatches or contamination.
 
 0 + 0 paired in sequencing : Total paired-end reads (if applicable).
 If using single-end sequencing, this value should be 0.
 
-0 + 0 read1
-0 + 0 read2
+0 + 0 read1 / 
+0 + 0 read2 : 
 The number of first and second reads in paired-end sequencing.
 
-0 + 0 properly paired (N/A : N/A)
+0 + 0 properly paired (N/A : N/A) : 
 Reads correctly mapped in pairs (both reads align correctly with the expected insert size and orientation).
 If this number is low, it might indicate low mapping quality or structural variations.
 
-0 + 0 with itself and mate mapped
+0 + 0 with itself and mate mapped : 
 Both paired reads are mapped to the same reference sequence.
 
-0 + 0 singletons (N/A : N/A)
+0 + 0 singletons (N/A : N/A) : 
 Reads where only one mate is mapped.
-
 A high number (>10%) could indicate low sequencing quality or a poor reference genome.
 
-0 + 0 with mate mapped to a different chr
+0 + 0 with mate mapped to a different chr : 
 Reads whose mates map to a different chromosome.
 Could suggest structural variations or contaminations.
 
-0 + 0 with mate mapped to a different chr (mapQ>=5)
+0 + 0 with mate mapped to a different chr (mapQ>=5) : 
 A more stringent count of reads mapped to different chromosomes, with a mapping quality (MAPQ) of at least 5.
 If this number is high, it might indicate translocations or contamination.
 
