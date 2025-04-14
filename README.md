@@ -249,7 +249,7 @@ samtools view minimap2_transcriptome.filt.sort.bam \
 
 ## Step 12: Functional Analysis
 
-The iINEXTNext R package (v3.0.1) (25)(23) was used to calculate the saturation curve. 
+The iINEXTNext R package (v3.0.1) was used to calculate the saturation curve. 
 
 
 ## Step 13: Count files annotation
