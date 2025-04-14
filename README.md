@@ -246,7 +246,13 @@ samtools view minimap2_transcriptome.filt.sort.bam \
 | cut -f 3 | sort | uniq -c
 ```
 
-## Step 12: Count files annotation
+
+## Step 12: Functional Analysis
+
+The iINEXTNext R package (v3.0.1) (25)(23) was used to calculate the saturation curve. 
+
+
+## Step 13: Count files annotation
 
 A human genome annotation file is preliminarily downloaded from the biomart Ensembl Genes 112 database, (GRCh38.p14 human genes version) with the following attributes: Gene.stable.ID, Transcript.stable.ID, Gene.description, Gene.name, Gene.type 
 ```R
@@ -298,7 +304,8 @@ CGSASupZNV_wo_na_grouped3 <- merge(CGSASupZNV_wo_na_grouped2,
 
 ```
 
-## Step 13: Functional Analysis
+
+## Step 14: Functional Analysis
 
 Utilisation de ClusterProfiler sous R
 ```R
